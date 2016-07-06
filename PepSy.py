@@ -10,9 +10,12 @@
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
 # The synthesis can be paused before coupling of an amino acid.
 # The synthesis conditions were only tested for the Rink Amide MBHA resin and with the Wang resin and Cl-Trt resin with the first amino acid already coupled.
-# An output file is generated for each run and stored in the output folder located within the folder of this script.
-# Device configuration file (config.txt) needs to be saved in the same folder as this script.
-# Sequence configuration file needs to be saved in the sequence folder located within the folder of this script.
+
+# Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
+# Device configuration file (config.txt) should be saved in the same folder as this script.
+# Sequence configuration file (see example templete.txt) should be saved in the "sequence" folder.
+# An output file is generated for each run and stored in the "output" folder.
+
 # Only Arduino Uno digital pins are used.
 # COM port numbers of VICI port selector (ps) and Arduino Uno (board) needs to be updated in the device configuration file according to their current assignment on the PC.
 # If the number of ports on VICI port selector (ps) changes then it needs to be updated in the device configuration file.
