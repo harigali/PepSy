@@ -1,0 +1,20 @@
+# PepSy device configuration file
+
+# pscom = Port Selector (ps) COM port
+# arduinocom = Arduino Uno COM port
+# ports = Number of ports on the ps
+# tubevol = Volume in microliters per inch of tubing (~11.6 microliters per inch for 0.03" id tubing)
+# length1 = Length of tubing in inches from aa to ps
+# length2 = Length of tubing in inches from ps to pump
+# length3 = Length of tubing in inches from pump to resin
+# piv = Solenoid micro pump internal volume in microliters
+
+[Parameters]
+pscom = COM4
+arduinocom = COM3
+ports = 24
+tubevol = 11.6
+length1 = 15
+length2 = 11
+length3 = 15
+piv = 20

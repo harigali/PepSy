@@ -1,0 +1,33 @@
+# PepSy sequence configuration file
+
+# ss = Synthesis scale 1 for 50 micromol and 2 for 100 micromol
+# seq = Peptide sequence
+# pa = Position assignement for amino acids/reagents by the script (y or n). If n, then provide positions in the section [Positions] (e.g., A = 7)
+# saa = Position of the amino acid number from were synthesis starts
+# pr = Priming step requirement (y or n)
+# sw = Swelling step requirement (y or n)
+# dp = Initial deprotection step requirement (y or n)
+# fw = Final washing and drying steps requiremnt (y or n)
+
+# Use uppercase letters for both L and D amino acids.
+# Use lowercase alphabets for N-methyl amino acids.
+# Use "X", "1", "2", "3", "4", or "5" for a linker, an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "B", "J", "O", or "U" respectively.
+# Use "Z", "6", "7", "8", or "9" for a chelator, an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to "X" or "Z" respectively.
+# Use "*" for pausing the synthesis.
+# Use "!" for ivDde deprotection and place the hydrazine solution in the position assigned to "B".
+# Use "@" for onresin oxidation and place the thallium solution in the position assigned to "O".
+# Use "$" for end-capping and place the acetic anhydride solution in the position assigned to "U".
+
+[Parameters]
+ss = 1
+seq = ZXQWAVGHLM
+pa = y
+saa = 1
+pr = y
+sw = y
+dp = y
+fw = y
+
+[Positions]
+
+       
