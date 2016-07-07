@@ -1,13 +1,13 @@
 ## PepSy
 ### An open source peptide synthesizer
 
-Utilizes Arduino Uno and python
+Utilizes Arduino Uno and python.
 
 Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 
 Email address to report bugs: hgali@ouhsc.edu.
 
-Tested only with Python 3.5.0
+Tested only with Python 3.5.0.
 
 Install pyFirmata.
 
