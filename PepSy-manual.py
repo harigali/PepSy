@@ -1,15 +1,17 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # PepSy - An open-source peptide synthesizer
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, The University of Oklahoma Health Sciences Center.
-# This script is written for the manual control of PepSy and amino acid/reagent line cleaning.
-# Device configuration file (config.txt) needs to be saved in the same folder as this script.
-# Only Arduino Uno digital pins are used.
-# COM port numbers of VICI port selector (ps) and Arduino Uno (board) needs to be updated in the device configuration file according to their current assignment on the PC.
-# Tested only with Python 3.5.0
+# Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
+# Email address to report bugs: hgali@ouhsc.edu.
 
+# Tested only with Python 3.5.0
 # First full version - December 16, 2015
 # Last update - May 12, 2016
+
+# This script is written for the manual control of PepSy and cleaning amino acid/reagent line.
+# Device configuration file (config.txt) shoule to be saved in the same folder as this script.
+# Only Arduino Uno digital pins are used.
+# COM port numbers of VICI port selector (ps) and Arduino Uno (board) needs to be updated in the device configuration file according to their current assignment on the PC.
 
 # VICI CHEMINERT low pressure 24 position port selector
 # Position 1 - Air
