@@ -20,3 +20,7 @@ Device configuration file (config.txt) should be saved in the same folder as thi
 Sequence configuration file (see example templete.txt) should be saved in the "sequence" folder.
 
 An output file is generated for each run and saved in the "output" folder.
+
+PepSy.py script is for operating the PepSy in a fully automatic mode.
+
+PepSy-manual.py script is for operating the PepSy in a fully manual mode and to clean amino acid/reagent line.
