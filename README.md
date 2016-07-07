@@ -3,7 +3,7 @@
 
 Utilizes Arduino Uno and python
 
-Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, The University of Oklahoma Health Sciences Center.
+Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 
 Email address to report bugs is hgali@ouhsc.edu.
 
