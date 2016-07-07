@@ -19,4 +19,4 @@ Device configuration file (config.txt) should be saved in the same folder as thi
 
 Sequence configuration file (see example templete.txt) should be saved in the "sequence" folder.
 
-An output file is generated for each run and stored in the "output" folder.
+An output file is generated for each run and saved in the "output" folder.
