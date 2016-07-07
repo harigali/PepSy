@@ -7,6 +7,10 @@ Email address to report bugs is hgali@ouhsc.edu.
 
 Tested only with Python 3.5.0
 
+Install pyFirmata.
+
+Upload standard firmata to the Arduino Uno from the File menu on the Arduino IDE, select Examples/Firmata/Standard Firmata and upload the file to the Arduino.
+
 Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 
 Device configuration file (config.txt) should be saved in the same folder as this script.
