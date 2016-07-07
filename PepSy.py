@@ -1,8 +1,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # PepSy - An open-source peptide synthesizer
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, The University of Oklahoma Health Sciences Center.
-# Email address to report bugs is hgali@ouhsc.edu.
+# Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
+# Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
 # Last update - June 8, 2016
 
