@@ -11,12 +11,12 @@
 
 # Use uppercase letters for both L and D amino acids.
 # Use lowercase alphabets for N-methyl amino acids.
-# Use "X", "1", "2", "3", "4", or "5" for a linker, an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "B", "J", "O", or "U" respectively.
-# Use "Z", "6", "7", "8", or "9" for a chelator, an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to "X" or "Z" respectively.
+# Use "X", "1", "2", "3", "4", or "5" for a linker, an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "X" or "1-5" respectively.
+# Use "Z", "6", "7", "8", or "9" for a chelator, an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to "Z" or "6-9" respectively.
 # Use "*" for pausing the synthesis.
-# Use "!" for ivDde deprotection and place the hydrazine solution in the position assigned to "B".
-# Use "@" for onresin oxidation and place the thallium solution in the position assigned to "O".
-# Use "$" for end-capping and place the acetic anhydride solution in the position assigned to "U".
+# Use "!" for ivDde deprotection and place the hydrazine solution in the position assigned to "!".
+# Use "@" for onresin oxidation and place the thallium solution in the position assigned to "@".
+# Use "$" for end-capping and place the acetic anhydride solution in the position assigned to "$".
 
 [Parameters]
 ss = 1
