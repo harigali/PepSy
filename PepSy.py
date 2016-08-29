@@ -83,7 +83,7 @@ def positions(p):
                 pos = ports
             else:
                 pos = 7 + at
-                paap.append(pos)
+            paap.append(pos)
             if paak[n-1] == "P" or paak[n-1].islower():
                 vol = ((len1+len2*2)/1000+ss*1)*paav[n-1]
             elif paak[n-1] == "!":
