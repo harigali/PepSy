@@ -1,7 +1,7 @@
 ## PepSy
 ### An open source automated peptide synthesizer based on Arduino and Python
 
-Utilizes Arduino Uno and python.
+
 
 Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 
