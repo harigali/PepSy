@@ -1,5 +1,5 @@
 ## PepSy
-### An open source peptide synthesizer
+### An open source automated peptide synthesizer based on Arduino and Python
 
 Utilizes Arduino Uno and python.
 
