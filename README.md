@@ -10,9 +10,9 @@ Email address to report bugs: hgali@ouhsc.edu.
   4. Arduino Software (https://www.arduino.cc/en/Main/Software)
 2. Upload standard firmata to the Arduino board from the File menu on the Arduino IDE, select Examples/Firmata/Standard Firmata and upload the file to the Arduino board.
 3. Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
-4. Device configuration file (config.txt) should be saved in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
-5. Sequence configuration file (see example templete.txt) should be saved in the "sequence" folder.
+4. Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
+5. Create a sequence configuration file (see example templete.txt) for each run and save it in the "sequence" folder.
 6. An output file is generated for each run and saved in the "output" folder.
-7. PepSy.py script is for operating the PepSy in a fully automatic mode.
-8. PepSy-manual.py script is for operating the PepSy in a fully manual mode and to clean amino acid/reagent line.
-9. Tested only with Python 3.5.0.
+7. PepSy.py script written is for operating the PepSy in a fully automatic mode.
+8. PepSy-manual.py script written is for operating the PepSy in a fully manual mode and to clean amino acid/reagent lines.
+9. Scripts were tested only with Python 3.5.0.
