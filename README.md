@@ -13,6 +13,6 @@ Email address to report bugs: hgali@ouhsc.edu.
 4. Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 5. Create a sequence configuration file (see example templete.txt) for each run and save it in the "sequence" folder.
 6. An output file is generated for each run and saved in the "output" folder.
-7. PepSy.py script written is for operating the PepSy in a fully automatic mode.
-8. PepSy-manual.py script written is for operating the PepSy in a fully manual mode and to clean amino acid/reagent lines.
+7. PepSy.py script is written for operating the PepSy in a fully automatic mode.
+8. PepSy-manual.py script is written for operating the PepSy in a fully manual mode and to clean amino acid/reagent lines.
 9. Scripts were tested only with Python 3.5.0.
