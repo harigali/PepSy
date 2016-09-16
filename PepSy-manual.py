@@ -38,8 +38,8 @@ length1 = float(config.get('Parameters', 'length1'))
 length2 = float(config.get('Parameters', 'length2'))
 piv = int(config.get('Parameters', 'piv'))
 
-ps = serial.Serial(port='COM4', baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS) # VICI port selector
-board = Arduino('COM3') # Arduino Uno
+ps = serial.Serial(port=pscom, baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS) # VICI port selector
+board = Arduino(arduinocom) # Arduino Uno
 n2 = board.get_pin('d:2:o') # Solenoid valve normally closed, connected to digital pin 2
 vent = board.get_pin('d:3:o') # Solenoid valve normally open, connected to digital pin 3
 reagent = board.get_pin('d:4:o') # Solenoid valve normally closed, connected to digital pin 4
