@@ -9,9 +9,9 @@
 # Last update - May 12, 2016
 
 # This script is written for the manual control of PepSy and cleaning amino acid/reagent line.
-# Device configuration file (config.txt) shoule to be saved in the same folder as this script.
-# Only Arduino Uno digital pins are used.
-# COM port numbers of VICI port selector (ps) and Arduino Uno (board) needs to be updated in the device configuration file according to their current assignment on the PC.
+# Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
+# Only Arduino UNO digital pins are used.
+# COM port numbers of VICI stream selector valve (ps) and Arduino UNO (board) needs to be updated in the device configuration file according to their current assignment on the PC.
 
 # VICI CHEMINERT low pressure 24 position port selector
 # Position 1 - Air
