@@ -25,7 +25,7 @@ Upload standard firmata to the Arduino board from the File menu on the Arduino I
 
 Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 
-Device configuration file (config.txt) should be saved in the same folder as this script.
+Device configuration file (config.txt) should be saved in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 
 Sequence configuration file (see example templete.txt) should be saved in the "sequence" folder.
 
