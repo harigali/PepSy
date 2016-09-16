@@ -13,7 +13,7 @@
 # Only Arduino UNO digital pins are used.
 # COM port numbers of VICI stream selector valve (ps) and Arduino UNO (board) needs to be updated in the device configuration file according to their current assignment on the PC.
 
-# VICI CHEMINERT low pressure 24 position port selector
+# VICI CHEMINERT low pressure 24 position stream selector valve
 # Position 1 - Air
 # Position 2 - DMF
 # Position 3 - DCM
