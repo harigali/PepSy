@@ -1,7 +1,7 @@
 # PepSy device configuration file
 
-# pscom = Port Selector (ps) COM port
-# arduinocom = Arduino Uno COM port
+# pscom = VICI stream selector valve (ps) COM port
+# arduinocom = Arduino UNO COM port
 # ports = Number of ports on the ps
 # tubevol = Volume in microliters per inch of tubing (~11.6 microliters per inch for 0.03" id tubing)
 # length1 = Length of tubing in inches from aa to ps
