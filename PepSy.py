@@ -1063,7 +1063,6 @@ print(datetime.datetime.now().strftime('%m-%d-%Y %I:%M:%S %p'))
 print(" ")
 
 seqfile = input("Enter the sequence configuration file name ")
-filename = seqfile
 print(" ")
 if seqfile == "":
     q1 = input("Do you want to terminate the run (y or n)? ")
@@ -1093,7 +1092,7 @@ dir = 'output/'
 if not os.path.exists(dir):
     os.mkdir(dir)
 os.chdir(dir) # changing current working directory to output folder
-filename = filename + "out.txt"
+filename = seqfile + datetime.datetime.now().strftime('-%Y-%m-%d-') + "out.txt"
 file = open(filename, 'w') # creating a new output file
 file.write(datetime.datetime.now().strftime('%m-%d-%Y %I:%M:%S %p') + '\n')
 file.write("The peptides sequence is " + seq + '\n')
