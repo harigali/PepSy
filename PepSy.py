@@ -1073,6 +1073,7 @@ if seqfile == "":
     else:
         seqfile = input("Enter the sequence configuration file name ")
         print(" ")
+filename = seqfile + datetime.datetime.now().strftime('-%Y-%m-%d-') +  "out.txt"
 seqfile = "sequence/" + seqfile + ".txt"
 
 synconfig = configparser.ConfigParser()
@@ -1092,7 +1093,6 @@ dir = 'output/'
 if not os.path.exists(dir):
     os.mkdir(dir)
 os.chdir(dir) # changing current working directory to output folder
-filename = seqfile + datetime.datetime.now().strftime('-%Y-%m-%d-') + "out.txt"
 file = open(filename, 'w') # creating a new output file
 file.write(datetime.datetime.now().strftime('%m-%d-%Y %I:%M:%S %p') + '\n')
 file.write("The peptides sequence is " + seq + '\n')
