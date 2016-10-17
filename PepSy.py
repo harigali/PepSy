@@ -1182,18 +1182,6 @@ file = open(filename, 'a')
 file.write("Peptide synthesis completed at " + datetime.datetime.now().strftime('%I:%M:%S %p'))
 file.close()
 
-prime.write(1)
-ps.write("GO2\r".encode())
-ps.open()
-ps.write(position.encode())
-ps.close()
-pumpon(5000)
-ps.open()
-ps.write("HM\r".encode())
-ps.close()
-time.sleep(1)
-prime.write(0)
-
 clean = input("Do you want to clean the amino acid/reagent lines (y or n)? ")
 print(" ")
 if clean == "y" or clean == "Y":
