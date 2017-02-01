@@ -1126,7 +1126,7 @@ else:
     print("Second part of the sequence to be synthesized is " + seqp2)
     file = open(filename, 'a')
     file.write("First part of the sequence to be synthesized is " + seqp1 + '\n')
-    file.wrile("Second part of the sequence to be synthesized is " + seqp2 + '\n')
+    file.write("Second part of the sequence to be synthesized is " + seqp2 + '\n')
     file.close()
     print(" ")
     paan = len(seqp1)
