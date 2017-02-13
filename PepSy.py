@@ -1116,12 +1116,17 @@ if aand <= 0:
     presyn()
     syn()
 else:
-    if aand == 1 or aand == 2: 
-        seqp1 = seq[5:aan+1]
-        seqp2 = seq[0:5]
-    if aand > 2 and aand < 10:
-        seqp1 = seq[aan-ports+7:aan+1]
-        seqp2 = seq[0:aan-ports+7]
+    i = 1
+    while i > 0:
+        seqtemp = seq[i:aan+1]
+        seqtemp1 = Counter(x for x in seqtemp if x not in ignore) # aa sorting
+        aantemp = len(seqtemp1) # number of different amino acids and reagents    
+        aandtemp = aantemp - (ports - 7)
+        if aandtemp <= 0:
+            seqp1 = seq[i:aan+1]
+            seqp2 = seq[0:i]
+            break
+        i = i + 1
     print("First part of the sequence to be synthesized is " + seqp1)
     print("Second part of the sequence to be synthesized is " + seqp2)
     file = open(filename, 'a')
