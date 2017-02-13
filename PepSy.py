@@ -1117,7 +1117,7 @@ if aand <= 0:
     syn()
 else:
     i = 1
-    while i > 0:
+    while True:
         seqtemp = seq[i:aan+1]
         seqtemp1 = Counter(x for x in seqtemp if x not in ignore) # aa sorting
         aantemp = len(seqtemp1) # number of different amino acids and reagents    
