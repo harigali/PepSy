@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - June 8, 2016
+# Last update - February 13, 2017
 
 # Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 # Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
