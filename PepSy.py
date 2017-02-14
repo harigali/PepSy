@@ -1107,8 +1107,7 @@ c = [] # coupling
 d = [] # deprotection
 ps.close()
     
-aand = aan1 - (ports - 7)
-if aand <= 0:
+if aan1 <= ports - 7: # checking whether reqired number of ports are available to accommodate all the amino acids and reagents, if not the peptide sequence will be split in to two parts
     paan = aan
     for n in range (1, paan+1):
         aa.append(seq[paan-n])
@@ -1121,8 +1120,7 @@ else:
         seqtemp = seq[i:aan+1]
         seqtemp1 = Counter(x for x in seqtemp if x not in ignore) # aa sorting
         aantemp = len(seqtemp1) # number of different amino acids and reagents    
-        aandtemp = aantemp - (ports - 7)
-        if aandtemp <= 0:
+        if aantemp <= ports - 7:
             seqp1 = seq[i:aan+1]
             seqp2 = seq[0:i]
             break
