@@ -4,7 +4,7 @@ Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Departmen
 
 Email address to report bugs: hgali@ouhsc.edu.
 
-For details, read this paper (http://journals.sagepub.com/doi/full/10.1177/2472630316685844)
+For details, read this paper (http://journals.sagepub.com/doi/full/10.1177/2472630316685844).
 
 ### Instructions
 1. Install the following packages:
