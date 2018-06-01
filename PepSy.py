@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - February 13, 2017
+# Last update - June 01, 2018
 
 # Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 # Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
@@ -126,9 +126,10 @@ def positions(p):
         for m in range (1, paan1+1):
             if aa[n-1] == paak[m-1]:
                 a.append(paap[m-1])
-        if aa[n-1] == "P" or aa[n-1].islower():
-            c.append("double") # double coupling if aa is P or any aa represented by a lowercase letter
-        elif aa[n-1] == "!":
+	if n > 1:
+        	if aa[n-2] == "P" or aa[n-2].islower():
+            		c.append("double") # double coupling if previous aa is P or any aa represented by a lowercase letter
+        if aa[n-1] == "!":
             c.append("ivdde")
         elif aa[n-1] == "@":
             c.append("oxidation")
