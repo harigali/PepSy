@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - June 01, 2018
+# Last update - June 11, 2018
 
 # Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 # Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
@@ -78,9 +78,7 @@ def positions(p):
             else:
                 pos = 7 + at
             paap.append(pos)
-            if paak[n-1] == "P" or paak[n-1].islower():
-                vol = ((len1+len2*2)/1000+ss*1)*paav[n-1]
-            elif paak[n-1] == "!":
+            if paak[n-1] == "!":
                 vol = (len1+len2)/1000+ss*2
             elif paak[n-1] == "@":
                 vol = (len1+len2)/1000+ss*4
