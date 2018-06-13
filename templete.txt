@@ -11,12 +11,15 @@
 
 # Use uppercase letters for both L and D amino acids.
 # Use lowercase alphabets for N-methyl amino acids.
-# Use "X", "1", "2", "3", "4", or "5" for a linker, an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "X" or "1-5" respectively.
-# Use "Z", "6", "7", "8", or "9" for a chelator, an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to "Z" or "6-9" respectively.
+# Use "3", "4", "5", "6", and "8" for beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, and 8-aminooctanoic acid linker and place the solution in the position assigned to "3", "4", "5", "6", or "8" respectively
+# Use "X" and "B" for H2N-PEG2-COOH and H2N-PEG3-COOH linker respectively
+# Use "J", "1", "2", "7", or "9" for a linker (other than beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, 8-aminooctanoic acid, H2N-PEG2-COOH, H2N-PEG3-COOH), an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "J", "1", "2", "7", or "9" respectively.
+# Use "Z" for tris t-butyl protected DOTA and place the DOTA solution in the position assigned to "Z".
+# Use "U" or "O" for a chelator (other than tris t-butyl protected DOTA), an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to  "U" or "O" respectively.
 # Use "*" for pausing the synthesis.
-# Use "!" for ivDde deprotection and place the hydrazine solution in the position assigned to "!".
-# Use "@" for onresin oxidation and place the thallium solution in the position assigned to "@".
-# Use "$" for end-capping and place the acetic anhydride solution in the position assigned to "$".
+# Use "!" for ivDde deprotection and place the hydrazine solution in the position assigned to "B".
+# Use "@" for onresin oxidation and place the thallium solution in the position assigned to "O".
+# Use "$" for end-capping and place the acetic anhydride solution in the position assigned to "U".
 
 [Parameters]
 ss = 1

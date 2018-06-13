@@ -4,7 +4,12 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - June 11, 2018
+# Last update - June 13, 2018
+
+# This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
+# This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
+# The synthesis can be paused before coupling of an amino acid.
+# The synthesis conditions were only tested for the Rink Amide MBHA resin and with the Wang resin and Cl-Trt resin with the first amino acid already coupled.
 
 # Create folders named "sequence" and "output" within the same folder where PepSy.py and PepSy-manual.py scripts are saved.
 # Save device configuration file (config.txt) in the same folder where PepSy.py and PepSy-manual.py scripts are saved.
@@ -14,7 +19,7 @@
 # Only Arduino UNO digital pins are used.
 # COM port numbers of VICI stream selector valve (ps) and Arduino UNO (board) needs to be updated in the device configuration file according to their current assignment on the PC.
 
-# VICI CHEMINERT low pressure 24 position stream selector valve
+# VICI CHEMINERT low pressure 24 stream selector valve
 # Position 1 - Air
 # Position 2 - DMF
 # Position 3 - DCM
@@ -33,8 +38,11 @@
 
 # Uppercase alphabets are used for both L and D amino acids.
 # Lowercase alphabets are used for N-methyl amino acids.
-# "X", "1", "2", "3", "4", or "5" are used for a linker, an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "X", "1", "2", "3", "4", or "5" respectively.
-# "Z", "6", "7", "8", or "9" are used for a chelator, an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to "Z", "6", "7", "8", or "9" respectively.
+# "3", "4", "5", "6", and "8" are used for beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, and 8-aminooctanoic acid linker and place the solution in the position assigned to "3", "4", "5", "6", or "8"  respectively
+# "X" and "B" are used for  H2N-PEG2-COOH and H2N-PEG3-COOH linker respectively
+# "J", "1", "2", "7", or "9" are used for a linker (other than beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, 8-aminooctanoic acid, H2N-PEG2-COOH, H2N-PEG3-COOH), an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to "J", "1", "2", "7", or "9" respectively.
+# "Z" is used for tris t-butyl protected DOTA and place the DOTA solution in the position assigned to "Z".
+# "U" or "O" are used for a chelator (other than tris t-butyl protected DOTA), an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to  "U" or "O" respectively.
 # "*" is used for pausing the synthesis.
 # "!" is used for ivDde deprotection and place the hydrazine solution in the position assigned to "!".
 # "@" is used for onresin oxidation and place the thallium solution in the position assigned to "@".
@@ -55,12 +63,15 @@ from collections import Counter
 def positions(p):
     mwdict = {"A":329.36, "a":329.36, "C":585.72, "c":585.72, "D":411.45, "d":411.45, "E":425.48, "e":425.48, "F":387.44, "f":387.44, "G":297.31, "g":297.31, "H":619.72, "h":619.72, "I":353.42, "i":353.42, "K":468.2, "k":468.2,
 				"L":353.42, "l":353.42, "M":371.45, "m":371.45, "N":596.68, "n":596.68, "P":337.38, "p":337.38, "Q":610.71, "q":610.71, "R":648.78, "r":648.78, "S":383.44, "s":383.44, "T":379.48, "t":379.48, "V":339.39, "v":339.39,
-				"W":526.59, "w":526.59, "Y":459.54, "y":459.54} # molecular weight of standard fmoc-protected amino acids
+				"W":526.59, "w":526.59, "Y":459.54, "y":459.54, "3":311.3, "4":325.4, "5":339.4, "6":353.3, "8":381.5, "X":385.42, "B":429.47, "Z":572.74} # molecular weight of standard fmoc-protected amino acids
     paap = [] # positions for different amino acids and reagents
     pseq = Counter(x for x in p if x not in ignore) # amino acids and reagents sorting
     paan1 = len(pseq) # number of different amino acids and reagents
+    for n in range (2, paan+1):
+        if aa[n-2] == "P" or aa[n-2].islower():
+            pseq[aa[n-1]] += 1               
     paak = list(pseq.keys())
-    paav = list(pseq.values())
+    paav = list(pseq.values())  
     file = open(filename, 'a')
     if pa == "y" or pa == "Y":
         print("Place amino acid/reagent solutions with required volumes in the positions shown below")
@@ -124,9 +135,9 @@ def positions(p):
         for m in range (1, paan1+1):
             if aa[n-1] == paak[m-1]:
                 a.append(paap[m-1])
-	if n > 1:
-        	if aa[n-2] == "P" or aa[n-2].islower():
-            		c.append("double") # double coupling if previous aa is P or any aa represented by a lowercase letter
+        if n > 1:
+            if aa[n-2] == "P" or aa[n-2].islower():
+                c.append("double") # double coupling if previous aa is P or any aa represented by a lowercase letter
         if aa[n-1] == "!":
             c.append("ivdde")
         elif aa[n-1] == "@":
@@ -137,7 +148,7 @@ def positions(p):
             c.append("pause")
         else:
             c.append("single") # default coupling
-        if aa[n-1] == "*" or aa[n-1] == "!" or aa[n-1] == "@" or aa[n-1] == "$" or aa[n-1] == "Z" or aa[n-1] == "6" or aa[n-1] == "7" or aa[n-1] == "8" or aa[n-1] == "9":
+        if aa[n-1] == "*" or aa[n-1] == "!" or aa[n-1] == "@" or aa[n-1] == "$" or aa[n-1] == "Z" or aa[n-1] == "U" or aa[n-1] == "O":
             d.append("none")
         else:
             d.append("fmoc") # default deprotection
