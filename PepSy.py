@@ -1,10 +1,10 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # PepSy - An open-source peptide synthesizer
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Developed by Dr. Hariprasad Gali, Ph.D., Research Assistant Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
+# Developed by Dr. Hariprasad Gali, Ph.D., Research Associate Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - June 13, 2018
+# Last update - August 15, 2018
 
 # This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
@@ -135,9 +135,6 @@ def positions(p):
         for m in range (1, paan1+1):
             if aa[n-1] == paak[m-1]:
                 a.append(paap[m-1])
-        if n > 1:
-            if aa[n-2] == "P" or aa[n-2].islower():
-                c.append("double") # double coupling if previous aa is P or any aa represented by a lowercase letter
         if aa[n-1] == "!":
             c.append("ivdde")
         elif aa[n-1] == "@":
@@ -148,6 +145,10 @@ def positions(p):
             c.append("pause")
         else:
             c.append("single") # default coupling
+	if n > 1:
+		if aa[n-2] == "P" or aa[n-2].islower():
+			c.pop() # deletes the last element from the list
+			c.append("double") # double coupling if previous aa is P or any aa represented by a lowercase letter
         if aa[n-1] == "*" or aa[n-1] == "!" or aa[n-1] == "@" or aa[n-1] == "$" or aa[n-1] == "Z" or aa[n-1] == "U" or aa[n-1] == "O":
             d.append("none")
         else:
