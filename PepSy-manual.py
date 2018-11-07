@@ -91,78 +91,62 @@ def primeOff():
     prime.write(0)
 
 def pumpon(v): # v is volume (integer) to be pumped in microliters, pumping rate is 1.2 ml/min, this function is required as a solenoid valve based micro pump is being used
+    pumpOnBtn.config(state=DISABLED)
     for p in range(0,v,piv):
         pump.write(1)
         time.sleep(0.25)
         pump.write(0)
         time.sleep(0.25)
+    pumpOnBtn.config(state=NORMAL)
 
 def pumponvol():
     psGoBtn.config(state=DISABLED)
-    pumpOnBtn.config(state=DISABLED)
     cleanBtn.config(state=DISABLED)
     washBtn.config(state=DISABLED)
     resetBtn.config(state=DISABLED)
     vol = int(pumpvol.get())
     pumpon(vol)
     psGoBtn.config(state=NORMAL)
-    pumpOnBtn.config(state=NORMAL)
     cleanBtn.config(state=NORMAL)
     washBtn.config(state=NORMAL)
     resetBtn.config(state=NORMAL)
 
 def go():
-    psGoBtn.config(state=DISABLED)
-    pumpOnBtn.config(state=DISABLED)
-    cleanBtn.config(state=DISABLED)
-    washBtn.config(state=DISABLED)
-    resetBtn.config(state=DISABLED)
     pos = int(pspos.get())
     position = 'GO%d\r' % (pos)
     ps.write(position.encode())
-    psGoBtn.config(state=NORMAL)
-    pumpOnBtn.config(state=NORMAL)
-    cleanBtn.config(state=NORMAL)
-    washBtn.config(state=NORMAL)
-    resetBtn.config(state=NORMAL)
 
 def clean():
-    global cleaninfo
     pos1 = int(ps1pos.get())
     pos2 = int(ps2pos.get())
     psGoBtn.config(state=DISABLED)
-    pumpOnBtn.config(state=DISABLED)
     cleanBtn.config(state=DISABLED)
     washBtn.config(state=DISABLED)
     resetBtn.config(state=DISABLED)
     for n in range(pos1, pos2+1):
         cleaninfo = 'Cleaning port ' + str(n)
-        frame.after(1000, cleanupdate)
+        cleanstatus.set(cleaninfo)
         position = 'GO%d\r' % (n)
         ps.write(position.encode())
         primeOn()
         pumpon(500+len1+len2)
         primeOff()
     ps.write('HM\r'.encode())
-    cleaninfo = 'Cleaning completed'
-    frame.after(1000, cleanupdate)
+    cleanstatus.set('Cleaning completed')
     psGoBtn.config(state=NORMAL)
-    pumpOnBtn.config(state=NORMAL)
     cleanBtn.config(state=NORMAL)
     washBtn.config(state=NORMAL)
     resetBtn.config(state=NORMAL)
 
 def wash():
-    global washinfo
     x = int(washTimes.get())
     psGoBtn.config(state=DISABLED)
-    pumpOnBtn.config(state=DISABLED)
     cleanBtn.config(state=DISABLED)
     washBtn.config(state=DISABLED)
     resetBtn.config(state=DISABLED)
     for n in range(1, x+1):
         washinfo = 'Resin washing ' + str(n)
-        frame.after(1000, washupdate)
+        washstatus.set(washinfo)
         reagentOn()
         ps.write('GO2\r'.encode())
         pumpon(2000)
@@ -176,39 +160,30 @@ def wash():
         ventOff()
         wasteOff()
         n2Off()
-    washinfo = 'Resin washing completed'
-    frame.after(1000, washupdate)
+    washstatus.set('Resin washing completed')
     psGoBtn.config(state=NORMAL)
-    pumpOnBtn.config(state=NORMAL)
     cleanBtn.config(state=NORMAL)
     washBtn.config(state=NORMAL)
     resetBtn.config(state=NORMAL)
 
-def cleanupdate():
-        cleanstatus.set(cleaninfo)
-
-def washupdate():
-        washstatus.set(washinfo)
-
 def reset():
-        global cleaninfo
-        global washinfo
-        volvar.set('0')
-        psvar.set('1')
-        ps1var.set('1')
-        ps2var.set('1')
-        washvar.set('0')
-        cleaninfo = 'Ready'
-        frame.after(1000, cleanupdate)
-        washinfo = 'Ready'
-        frame.after(1000, washupdate)
-        n2OffBtn.config(state=DISABLED)
-        ventOffBtn.config(state=DISABLED)
-        reagentOffBtn.config(state=DISABLED)
-        wasteOffBtn.config(state=DISABLED)
-        primeOffBtn.config(state=DISABLED)
-        pumpOnBtn.config(state=NORMAL)
-        psGoBtn.config(state=NORMAL)
+    volvar.set('0')
+    psvar.set('1')
+    ps1var.set('1')
+    ps2var.set('1')
+    washvar.set('0')
+    cleanstatus.set('Ready')
+    washstatus.set('Ready')
+    n2Off()
+    ventOff()
+    reagentOff()
+    wasteOff()
+    primeOff()
+    go()
+    psGoBtn.config(state=NORMAL)
+    cleanBtn.config(state=NORMAL)
+    washBtn.config(state=NORMAL)
+    resetBtn.config(state=NORMAL)
         
 # Main
 config = configparser.ConfigParser()
@@ -239,6 +214,14 @@ frame.grid()
 
 len1 = int(tubevol*length1) # tubing volume aa to ps
 len2 = int(tubevol*length1) # tubing volume ps to pump
+
+volvar = StringVar()
+psvar = StringVar()
+ps1var = StringVar()
+ps2var = StringVar()
+washvar = StringVar()
+cleanstatus = StringVar()
+washstatus = StringVar()
 
 line1Lbl = Label(frame, text = '-----------------------------------------------------------------')
 line1Lbl.grid(row = 1, column = 1, columnspan = 3)
@@ -287,17 +270,13 @@ primeOnBtn.grid(row = 9, column = 2, pady = 5, sticky = E)
 primeOffBtn = Button(frame, text = ' OFF ',command = lambda:primeOff())
 primeOffBtn.grid(row = 9, column = 3, pady = 5, sticky = W)
 
-volvar = StringVar()
-volvar.set('0')
 pumpLbl = Label(frame, text = 'Pump Volume')
 pumpLbl.grid(row = 10, column = 1, pady = 5, sticky = E)
 pumpvol = Entry(frame, textvariable = volvar, width = 5)
 pumpvol.grid(row = 10, column = 2, pady = 5, sticky = E)
-pumpOnBtn = Button(frame, text = ' ON ', command = lambda:pumponvol())
+pumpOnBtn = Button(frame, text = ' ON ', command = lambda:_thread.start_new(pumponvol, ()))
 pumpOnBtn.grid(row = 10, column = 3, pady = 5, sticky = W)
 
-psvar = StringVar()
-psvar.set('1')
 psLbl = Label(frame, text = 'Port')
 psLbl.grid(row = 11, column = 1, pady = 5, sticky = E)
 pspos = Entry(frame, textvariable = psvar, width = 5)
@@ -314,15 +293,11 @@ title4Lbl.grid(row = 13, column = 1, columnspan = 3)
 title5Lbl = Label(frame, text = ' ')
 title5Lbl.grid(row = 14, column = 1, columnspan = 3)
 
-ps1var = StringVar()
-ps1var.set('1')
 ps1Lbl = Label(frame, text = 'Starting Port')
 ps1Lbl.grid(row = 15, column = 1, sticky = E)
 ps1pos = Entry(frame, textvariable = ps1var, width = 5)
 ps1pos.grid(row = 15, column = 2, sticky = E)
 
-ps2var = StringVar()
-ps2var.set('1')
 ps2Lbl = Label(frame, text = 'Ending Port')
 ps2Lbl.grid(row = 16, column = 1, sticky = E)
 ps2pos = Entry(frame, textvariable = ps2var, width = 5)
@@ -331,8 +306,6 @@ ps2pos.grid(row = 16, column = 2, sticky = E)
 cleanBtn = Button(frame, text = '          CLEAN          ', command = lambda:_thread.start_new(clean, ()))
 cleanBtn.grid(row = 17, column = 1, pady = 5, columnspan = 3)
 
-cleanstatus = StringVar()
-cleanstatus.set('Ready')
 cleanstatusLbl = Label(frame, textvariable = cleanstatus)
 cleanstatusLbl.grid(row = 18, column = 1, pady = 5, columnspan = 3)
 
@@ -345,8 +318,6 @@ title6Lbl.grid(row = 20, column = 1, columnspan = 3)
 title7Lbl = Label(frame, text = ' ')
 title7Lbl.grid(row = 21, column = 1, columnspan = 3)
 
-washvar = StringVar()
-washvar.set('0')
 washLbl = Label(frame, text = 'Times')
 washLbl.grid(row = 22, column = 1, sticky = E)
 washTimes = Entry(frame, textvariable = washvar, width = 5)
@@ -355,15 +326,15 @@ washTimes.grid(row = 22, column = 2, sticky = E)
 washBtn = Button(frame, text = '          WASH          ', command = lambda:_thread.start_new(wash, ()))
 washBtn.grid(row = 23, column = 1, pady = 5, columnspan = 3)
 
-washstatus = StringVar()
-washstatus.set('Ready')
 washstatusLbl = Label(frame, textvariable = washstatus)
 washstatusLbl.grid(row = 24, column = 1, pady = 5, columnspan = 3)
 
 line5Lbl = Label(frame, text = '-----------------------------------------------------------------')
 line5Lbl.grid(row = 25, column = 1, columnspan = 3)
 
-resetBtn = Button(frame, text = '       RESET          ', command = lambda:_thread.start_new(reset, ()))
+resetBtn = Button(frame, text = '       RESET          ', command = lambda:reset())
 resetBtn.grid(row = 26, column = 1, pady = 5, columnspan = 3)
+
+reset()
 
 root.mainloop()
