@@ -171,7 +171,7 @@ def positions(p):
     input("If the positions, couplings, and deprotections are correct, press ENTER to continue")
     print(" ")
     
-def ps(p): # p is port number (integer)
+def ps(p): # p is stream selector positionr (integer)
     if p == 1:
         position = "HM\r"
     else:
