@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor of Research, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - September 23, 2019
+# Last update - October 31, 2019
 
 # This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
@@ -66,7 +66,8 @@ def timestamp():
 
 def filewrite(info):
     file = open(filename, 'a')
-    file.write(info)
+    file.write(info + '\n')
+    print(info)
     file.close()
     
 def positions(p):
@@ -82,14 +83,11 @@ def positions(p):
     paak = list(pseq.keys())
     paav = list(pseq.values())  
     if pa.upper() == 'Y':
-        print('Place amino acid/reagent solutions with required volumes in the positions shown below')
+        filewrite('Place amino acid/reagent solutions with required volumes in the positions shown below')
         print(' ')
-        print('---------------------------------------------------------------------------------------------------')
-        filewrite('---------------------------------------------------------------------------------------------------' + '\n')
-        print('S. No.', '\t', 'Amino acid', '\t', 'Position', '\t', 'Solution volume', '\t', 'Amino acid weight', '\t', 'DMF volume')
-        print('---------------------------------------------------------------------------------------------------')
-        filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Solution volume' + '\t\t' + 'Amino acid weight' + '\t' + 'DMF volume' + '\n')
-        filewrite('---------------------------------------------------------------------------------------------------' + '\n')
+        filewrite('---------------------------------------------------------------------------------------------------')
+        filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Solution volume' + '\t\t' + 'Amino acid weight' + '\t' + 'DMF volume')
+        filewrite('---------------------------------------------------------------------------------------------------')
         for n in range (1, paan1+1):
             at = n % (ports - 7)
             if at == 0:
@@ -114,10 +112,8 @@ def positions(p):
             vol = str(round(vol, 2))
             wt = format(int(wt), '03d')
             dmf = str(int(dmf))
-            print(n, '\t', paak[n-1], '(', paav[n-1], ')', '\t', paap[n-1], '\t\t', vol, 'ml', '\t\t', wt, 'mg', '\t\t', dmf, 'ul') # displays wt for standard amino acids
-            filewrite(str(n) + '\t' + paak[n-1] + '(' + str(paav[n-1]) + ')' + '\t\t' + str(paap[n-1]) + '\t\t' + vol + ' ml' + '\t\t\t' + wt + ' mg' + '\t\t\t' + dmf + ' ul' + '\n')
-        print('---------------------------------------------------------------------------------------------------')
-        filewrite('---------------------------------------------------------------------------------------------------' + '\n')
+            filewrite(str(n) + '\t' + paak[n-1] + '(' + str(paav[n-1]) + ')' + '\t\t' + str(paap[n-1]) + '\t\t' + vol + ' ml' + '\t\t\t' + wt + ' mg' + '\t\t\t' + dmf + ' ul')
+        filewrite('---------------------------------------------------------------------------------------------------')
         print(' ')
         print('Check the nitrogen gas pressure, if it is not ~2 psi then adjust the pressure.')
         print(' ')
@@ -129,12 +125,9 @@ def positions(p):
             pos = synconfig.getint('Positions', paak[n-1])
             paap.append(pos)
     print(' ')
-    print('----------------------------------------------------------------------')
-    filewrite('----------------------------------------------------------------------' + '\n')
-    print('S. No.', '\t', 'Amino acid', '\t', 'Position', '\t', 'Coupling', '\t', 'Deprotection')
-    print('----------------------------------------------------------------------')
-    filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Coupling' + '\t' + 'Deprotection' + '\n')
-    filewrite('----------------------------------------------------------------------' + '\n')
+    filewrite('----------------------------------------------------------------------')
+    filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Coupling' + '\t' + 'Deprotection')
+    filewrite('----------------------------------------------------------------------')
     for n in range (1, paan+1):
         if aa[n-1] == '*':
             a.append(1)
@@ -163,11 +156,9 @@ def positions(p):
             n1 = n + saa - 1
         else:
             n1 = n
-        print(n1, '\t', aa[n-1], '\t\t', a[n-1], '\t\t', c[n-1], '\t', d[n-1])
-        filewrite(str(n1) + '\t' + aa[n-1] + '\t\t' + str(a[n-1]) + '\t\t' + c[n-1] + '\t\t' + d[n-1] + '\n')
-    print('----------------------------------------------------------------------')
+        filewrite(str(n1) + '\t' + aa[n-1] + '\t\t' + str(a[n-1]) + '\t\t' + c[n-1] + '\t\t' + d[n-1])
     print(' ')
-    filewrite('----------------------------------------------------------------------' + '\n')
+    filewrite('----------------------------------------------------------------------')
     input('If the positions, couplings, and deprotections are correct, press ENTER to continue')
     print(' ')
     
@@ -192,7 +183,7 @@ def presyn():
     if pr.upper() == 'Y':
         priming()
     elif pr.upper() == 'N':
-        print('Priming skipped')
+        filewrite('Priming skipped')
         print(' ')
     else:
         pr1 = input('Input error in the sequence file. Do you want to perform priming (y or n)? ')
@@ -200,12 +191,12 @@ def presyn():
         if pr1.upper() == 'Y':
             priming()
         else:
-            print('Priming skipped')
+            filewrite('Priming skipped')
             print(' ')
     if sw.upper() == 'Y':
         swelling()
     elif sw.upper() == 'N':
-        print('Swelling skipped')
+        filewrite('Swelling skipped')
         print(' ')
     else:
         sw1 = input('Input error in the sequence file. Do you want to perform swelling (y or n)? ')
@@ -213,12 +204,9 @@ def presyn():
         if sw1.upper() == 'Y':
             swelling()
         else:
-            print('Swelling skipped')
+            filewrite('Swelling skipped')
             print(' ')
-    print('--------------------------------------------------------')
-    print('Synthesis')
-    print('--------------------------------------------------------')
-    filewrite('Peptide synthesis started at ' + timestamp() + '\n')
+    filewrite('Peptide synthesis started at ' + timestamp())
     if dp.upper() == 'Y':
         fmocdeprotection()
     elif dp.upper() == 'N':
@@ -230,7 +218,7 @@ def presyn():
         if dp1.upper() == 'Y':
             fmocdeprotection()
         else:
-            print('Initial fmoc deprotection skipped')
+            filewrite('Initial fmoc deprotection skipped')
             print(' ')
         
 def syn():
@@ -240,25 +228,15 @@ def syn():
         else:
             n1 = n
         if aa[n-1] == '*':
-            print('Pause')
-            print('------------------')
-            filewrite('Pause' + '\n')
+            filewrite('Pause')
         elif aa[n-1] == '@':
-            print('On-resin oxidation')
-            print('------------------')
-            filewrite('On-resin oxidation' + '\n')
+            filewrite('On-resin oxidation')
         elif aa[n-1] == '!':
-            print('ivDde deprotection')
-            print('------------------')
-            filewrite('ivDde deprotection' + '\n')
+            filewrite('ivDde deprotection')
         elif aa[n-1] == '$':
-            print('Endcapping')
-            print('------------------')
-            filewrite('Endcapping' + '\n')
+            filewrite('Endcapping')
         else:
-            print('Amino acid: ' + str(n1) + ' (' + aa[n-1] + ')')
-            print('------------------')
-            filewrite('Amino acid: ' + str(n1) + ' (' + aa[n-1] + ')' + '\n')
+            filewrite('Amino acid: ' + str(n1) + ' (' + aa[n-1] + ')')
         if c[n-1] == 'single': 
             coupling(n-1)
         elif c[n-1] == 'double':
@@ -272,7 +250,7 @@ def syn():
         elif c[n-1] == 'pause':
             pause()
         else:
-            print('No coupling')
+            filewrite('No coupling')
             print(' ')
         if d[n-1] == 'fmoc':
             fmocdeprotection()
@@ -293,10 +271,7 @@ def washing():
     n2.write(0)
      
 def initialization():
-    print('--------------------------------------------------------')
-    print('Initialization')
-    print('--------------------------------------------------------')
-    print('Started at ' + timestamp())
+    filewrite('Initialization started at ' + timestamp())
     pspos(1)
     n2.write(0)
     vent.write(0)
@@ -304,16 +279,11 @@ def initialization():
     waste.write(0)
     prime.write(0)
     pump.write(0)
-    filewrite('Initialization completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def priming():
-    print('--------------------------------------------------------')
-    print('Priming')
-    print('--------------------------------------------------------')
-    print('DMF, DCM, piperidine, DIPEA, HOBT, and HBTU lines')
-    print('Started at ' + timestamp())
+    filewrite('Priming started at ' + timestamp())
     prime.write(1)
     for p in range(4,8):
         pspos(p)
@@ -326,15 +296,11 @@ def priming():
         pspos(1)
         sleep(1)
     prime.write(0)
-    filewrite('Priming completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def swelling():
-    print('--------------------------------------------------------')
-    print('Swelling')
-    print('--------------------------------------------------------')
-    print('Started at ' + timestamp())
+    print('Swelling started at ' + timestamp())
     print('Adding solvents')
     reagent.write(1)
     pspos(3)
@@ -362,19 +328,15 @@ def swelling():
     vent.write(0)
     print('Washing')
     washing() # washing
-    filewrite('Swelling completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
     
 def coupling(n): # S. No. (integer) of the amino acid
-    filewrite('Coupling (single) started at ' + timestamp() + '\n')
-    print('Coupling (single)')
-    print('Started at ' + timestamp())
+    filewrite('Coupling (single) started at ' + timestamp())
     aapos = a[n]
     pspos(aapos)
     prime.write(1)
-    filewrite('Amino acid position on PS is ' + str(aapos) + '\n')
-    print('Amino acid position on PS is ' + str(aapos))
+    filewrite('Amino acid position on PS is ' + str(aapos))
     print('Priming amino acid ' + aa[n])
     pumpon(len1+len2) # amino acid line priming - aa to ps to pump
     prime.write(0)
@@ -442,21 +404,17 @@ def coupling(n): # S. No. (integer) of the amino acid
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         washing()
-    filewrite('Coupling completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def doublecoupling(n): # S. No. (integer) of the amino acid
-    filewrite('Coupling (double) started at ' + timestamp() + '\n')
-    print('Coupling (double)')
-    print('Started at ' + timestamp())
+    filewrite('Coupling (double) started at ' + timestamp())
     for d in range(1,3):
         aapos = a[n]
         pspos(aapos)
         prime.write(1)
         if d == 1:
-            filewrite('Amino acid position on PS is ' + str(aapos) + '\n')
-            print('Amino acid position on PS is ' + str(aapos))
+            filewrite('Amino acid position on PS is ' + str(aapos))
             print('Priming amino acid ' + aa[n])
             pumpon(len1+len2) # amino acid line priming - aa to ps to pump
         if d == 2:
@@ -526,14 +484,11 @@ def doublecoupling(n): # S. No. (integer) of the amino acid
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         washing()
-    filewrite('Double coupling completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def fmocdeprotection():
-    filewrite('fmoc deprotection started at ' + timestamp() + '\n')
-    print('fmoc deprotection')
-    print('Started at ' + timestamp())
+    filewrite('fmoc deprotection started at ' + timestamp())
     print('Adding reagents')
     pspos(4)
     sleep(1)
@@ -598,15 +553,11 @@ def fmocdeprotection():
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         washing()
-    filewrite('Deprotection completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
     
 def finalwashing():
-    print('--------------------------------------------------------')
-    print('Final washing')
-    print('--------------------------------------------------------')
-    print('Started at ' + timestamp())
+    filewrite('Final washing tarted at ' + timestamp())
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         reagent.write(1)
@@ -622,14 +573,11 @@ def finalwashing():
         vent.write(0)
         waste.write(0)
         n2.write(0)
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
-    print('--------------------------------------------------------')
-    print('Drying')
-    print('--------------------------------------------------------')
-    print('Started at ' + timestamp())
+    filewrite('Drying started at ' + timestamp())
     drying()
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def pause():
@@ -678,13 +626,11 @@ def drying():
     waste.write(0)
 
 def ivddedeprotection(n): # S. No. (integer) of the reagent
-    filewrite('Started at ' + timestamp() + '\n')
-    print('Started at ' + timestamp())
+    filewrite('ivDde deprotection started at ' + timestamp())
     print('Adding reagents')
     aapos = a[n]
     pspos(aapos)
-    filewrite('ivDde position on PS is ' + str(aapos) + '\n')
-    print('ivDde position on PS is ' + str(aapos))
+    filewrite('ivDde position on PS is ' + str(aapos))
     sleep(1)
     prime.write(1)
     pumpon(len1+len2) # removing previous reagent from tubing between aa to ps to pump
@@ -747,18 +693,15 @@ def ivddedeprotection(n): # S. No. (integer) of the reagent
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         washing()
-    filewrite('Completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def onresinoxidation(n): # S. No. (integer) of the reagent
-    filewrite('Started at ' + timestamp() + '\n')
-    print('Started at ' + timestamp())
+    filewrite('Onresin oxidation started at ' + timestamp())
     print('Adding reagents')
     aapos = a[n]
     pspos(aapos)
-    filewrite('Tl(CF3COO)3 position on PS is ' + str(aapos) + '\n')
-    print('Tl(CF3COO)3 position on PS is ' + str(aapos))
+    filewrite('Tl(CF3COO)3 position on PS is ' + str(aapos))
     sleep(1)
     prime.write(1)
     pumpon(len1+len2) # removing previous reagent from tubing between aa to ps to pump
@@ -821,18 +764,15 @@ def onresinoxidation(n): # S. No. (integer) of the reagent
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         washing()
-    filewrite('Completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 
 def endcapping(n): # S. No. (integer) of the reagent
-    filewrite('Started at ' + timestamp() + '\n')
-    print('Started at ' + timestamp())
+    filewrite('Endcapping started at ' + timestamp())
     print('Adding reagents')
     aapos = a[n]
     pspos(aapos)
-    filewrite('Acetic anhydride position on PS is ' + str(aapos) + '\n')
-    print('Acetic anhydride position on PS is ' + str(aapos))
+    filewrite('Acetic anhydride position on PS is ' + str(aapos))
     sleep(1)
     prime.write(1)
     pumpon(len1+len2) # removing previous reagent from tubing between aa to ps to pump
@@ -879,8 +819,7 @@ def endcapping(n): # S. No. (integer) of the reagent
     for w in range(1,6): # 5 times washing
         print('Washing ' + str(w))
         washing()
-    filewrite('Completed at ' + timestamp() + '\n')
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
     print(' ')
 # -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -913,8 +852,6 @@ print(' ')
 print('--------------------------------------------------------------------------------------------------')
 print('                                           PepSy                                                  ')
 print('--------------------------------------------------------------------------------------------------')
-print(' ')
-print(datetime.now().strftime('%m-%d-%Y %I:%M:%S %p'))
 print(' ')
 
 seqfile = input('Enter the sequence configuration file name ')
@@ -950,8 +887,9 @@ if not path.exists(dir):
 chdir(dir) # changing current working directory to output folder
 file = open(filename, 'w') # creating a new output file
 file.close()
-filewrite(datetime.now().strftime('%m-%d-%Y %I:%M:%S %p') + '\n')
+filewrite(datetime.now().strftime('%m-%d-%Y %I:%M:%S %p'))
 filewrite('The peptides sequence is ' + seq + '\n')
+print(' ')
 aan = len(seq)
 ignore = ['*']
 seq1 = Counter(x for x in seq if x not in ignore) # aa sorting
@@ -980,21 +918,17 @@ else:
             seqp2 = seq[0:i]
             break
         i = i + 1
-    print('First part of the sequence to be synthesized is ' + seqp1)
-    print('Second part of the sequence to be synthesized is ' + seqp2)
-    filewrite('First part of the sequence to be synthesized is ' + seqp1 + '\n')
-    filewrite('Second part of the sequence to be synthesized is ' + seqp2 + '\n')
+    filewrite('First part of the sequence to be synthesized is ' + seqp1)
+    filewrite('Second part of the sequence to be synthesized is ' + seqp2)
     print(' ')
     paan = len(seqp1)
     for n in range (1, paan+1):
         aa.append(seqp1[paan-n])
     positions(seqp1)
-    print('First part of the sequence synthesis started')
-    filewrite('First part of the sequence synthesis started' + '\n')
+    filewrite('First part of the sequence synthesis started')
     presyn()
     syn()
-    print('First part of the peptide synthesis done, amino acid/reagent lines will be cleaned')
-    print('--------------------------------------------------------')
+    filewrite('First part of the peptide synthesis done, amino acid/reagent lines will be cleaned')
     print(' ')
     aalinecleaning()
     a = None
@@ -1009,17 +943,15 @@ else:
     for n in range (1, paan+1):
         aa.append(seqp2[paan-n])
     positions(seqp2)
-    print('Second part of the sequence synthesis started')
-    filewrite('Second part of the sequence synthesis started' + '\n')
+    filewrite('Second part of the sequence synthesis started')
     syn()
-    print('Second part of the peptide synthesis done')
-    print('--------------------------------------------------------')
+    filewrite('Second part of the peptide synthesis done')
     print(' ')        
        
 if fw.upper() == 'Y':
     finalwashing()
 elif fw.upper() == 'N':
-    print('Final washing skipped')
+    filewrite('Final washing skipped')
     print(' ')
 else:
     fw1 = input('Input error in the sequence file. Do you want to perform final washing (y or n)? ')
@@ -1027,7 +959,7 @@ else:
     if fw1.upper() == 'Y':
         finalwashing()
     else:
-        print('Final washing skipped')
+        filewrite('Final washing skipped')
         print(' ')
       
 filewrite('Peptide synthesis completed at ' + timestamp())
@@ -1035,16 +967,12 @@ filewrite('Peptide synthesis completed at ' + timestamp())
 clean = input('Do you want to clean the amino acid/reagent lines (y or n)? ')
 print(' ')
 if clean.upper() == 'Y':
-    print('--------------------------------------------------------')
-    print('Amino acid/reagent lines cleaning')
-    print('--------------------------------------------------------')
-    print('Started at ' + timestamp())
+    filewrite('Amino acid/reagent lines cleaning started at ' + timestamp())
     aalinecleaning()
-    print('Completed at ' + timestamp())
+    filewrite('Completed at ' + timestamp())
 
 print(' ')
-print('PEPTIDE SYNTHESIS COMPLETED')
-print('--------------------------------------------------------------------------------------------------')
+filewrite('PEPTIDE SYNTHESIS COMPLETED')
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # END
 # -------------------------------------------------------------------------------------------------------------------------------------------
