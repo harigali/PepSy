@@ -157,8 +157,8 @@ def positions(p):
         else:
             n1 = n
         filewrite(str(n1) + '\t' + aa[n-1] + '\t\t' + str(a[n-1]) + '\t\t' + c[n-1] + '\t\t' + d[n-1])
-    print(' ')
     filewrite('----------------------------------------------------------------------')
+    print(' ')
     input('If the positions, couplings, and deprotections are correct, press ENTER to continue')
     print(' ')
     
@@ -207,6 +207,7 @@ def presyn():
             filewrite('Swelling skipped')
             print(' ')
     filewrite('Peptide synthesis started at ' + timestamp())
+    print(' ')
     if dp.upper() == 'Y':
         fmocdeprotection()
     elif dp.upper() == 'N':
@@ -962,8 +963,6 @@ else:
         filewrite('Final washing skipped')
         print(' ')
       
-filewrite('Peptide synthesis completed at ' + timestamp())
-
 clean = input('Do you want to clean the amino acid/reagent lines (y or n)? ')
 print(' ')
 if clean.upper() == 'Y':
@@ -972,7 +971,7 @@ if clean.upper() == 'Y':
     filewrite('Completed at ' + timestamp())
 
 print(' ')
-filewrite('PEPTIDE SYNTHESIS COMPLETED')
+filewrite('Peptide synthesis completed at ' + timestamp())
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # END
 # -------------------------------------------------------------------------------------------------------------------------------------------
