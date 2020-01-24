@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor of Research, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - October 31, 2019
+# Last update - January 17, 2020
 
 # This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
@@ -36,8 +36,10 @@
 # Solution concentrations to be used: amino acids - 0.33M, HBTU - 0.33M, HOBT - 0.66M, DIPEA - 1.32M, piperidine - 20%, hydrazine - 2%, acetic anhydride/pyridine - 2.5M/2.5M, and Tl(CF3COO)2 - 0.05M.
 # If the solenoid micro pump is replaced with a different pump internal volume (piv), it needs to be updated in the device configuration file.
 
-# Uppercase alphabets are used for both L and D amino acids.
-# Lowercase alphabets are used for N-methyl amino acids.
+# Uppercase alphabets are used for L amino acids.
+# Lowercase alphabets are used for D amino acids.
+# '<', '>', '-', '+', and '=' are used for N-methyl amino acids.
+# '#' is used for a manually added amino acid. 
 # '3', '4', '5', '6', and '8' are used for beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, and 8-aminooctanoic acid linker and place the solution in the position assigned to '3', '4', '5', '6', or '8'  respectively
 # 'X' and 'B' are used for  H2N-PEG2-COOH and H2N-PEG3-COOH linker respectively
 # 'J', '1', '2', '7', or '9' are used for a linker (other than beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, 8-aminooctanoic acid, H2N-PEG2-COOH, H2N-PEG3-COOH), an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to 'J', '1', '2', '7', or '9' respectively.
@@ -45,7 +47,7 @@
 # 'U' or 'O' are used for a chelator (other than tris t-butyl protected DOTA), an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to  'U' or 'O' respectively.
 # '*' is used for pausing the synthesis.
 # '!' is used for ivDde deprotection and place the hydrazine solution in the position assigned to '!'.
-# '@' is used for onresin oxidation and place the thallium solution in the position assigned to '@'.
+# '@' is used for onresin oxidation and add the thallium solution manually.
 # '$' is used for endcapping and place the acetic anhydride solution in the position assigned to '$'.
 # -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -71,14 +73,13 @@ def filewrite(info):
     file.close()
     
 def positions(p):
-    mwdict = {'A':329.36, 'a':343.36, 'C':585.72, 'c':599.72, 'D':411.45, 'd':425.45, 'E':425.48, 'e':439.48, 'F':387.44, 'f':401.44, 'G':297.31, 'g':311.31, 'H':619.72, 'h':633.72, 'I':353.42, 'i':367.42, 'K':468.2, 'k':482.2,
-				'L':353.42, 'l':367.42, 'M':371.45, 'm':385.45, 'N':596.68, 'n':610.68, 'P':337.38, 'Q':610.71, 'q':624.71, 'R':648.78, 'r':662.78, 'S':383.44, 's':397.44, 'T':379.48, 't':393.48, 'V':339.39, 'v':353.39,
-				'W':526.59, 'w':540.59, 'Y':459.54, 'y':463.54, '3':311.3, '4':325.4, '5':339.4, '6':353.3, '8':381.5, 'X':385.42, 'B':429.47, 'Z':572.74} # molecular weight of standard fmoc-protected amino acids
+    mwdict = {'A':329.36, 'C':585.72, 'D':411.45, 'E':425.48, 'F':387.44, 'G':297.31, 'H':619.72, 'I':353.42, 'K':468.2, 'L':353.42, 'M':371.45, 'N':596.68, 'P':337.38, 'Q':610.71, 'R':648.78, 'S':383.44,
+              'T':379.48, 'V':339.39, 'W':526.59, 'Y':459.54, '3':311.3, '4':325.4, '5':339.4, '6':353.3, '8':381.5, 'X':385.42, 'B':429.47, 'Z':572.74} # molecular weight of standard fmoc-protected amino acids
     paap = [] # positions for different amino acids and reagents
     pseq = Counter(x for x in p if x not in ignore) # amino acids and reagents sorting
     paan1 = len(pseq) # number of different amino acids and reagents
     for n in range (2, paan+1):
-        if aa[n-2] == 'P' or aa[n-2].islower():
+        if aa[n-2] == 'P' or aa[n-2] in ('P', '<', '>', '+', '-', '='):
             pseq[aa[n-1]] += 1               
     paak = list(pseq.keys())
     paav = list(pseq.values())  
@@ -104,7 +105,7 @@ def positions(p):
             else:
                 vol = ((len1+len2)/1000+ss*0.5)*paav[n-1]  
             try:
-                mw = mwdict[paak[n-1]]
+                mw = mwdict[paak[n-1].upper()]
             except:
                 mw = 0
             wt = vol*mw*0.33
@@ -125,11 +126,11 @@ def positions(p):
             pos = synconfig.getint('Positions', paak[n-1])
             paap.append(pos)
     print(' ')
-    filewrite('----------------------------------------------------------------------')
-    filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Coupling' + '\t' + 'Deprotection')
-    filewrite('----------------------------------------------------------------------')
+    filewrite('-----------------------------------------------------------------------------')
+    filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Coupling' + '\t\t' + 'Deprotection')
+    filewrite('-----------------------------------------------------------------------------')
     for n in range (1, paan+1):
-        if aa[n-1] == '*':
+        if aa[n-1] in ('*', '@', '#'):
             a.append(1)
         for m in range (1, paan1+1):
             if aa[n-1] == paak[m-1]:
@@ -142,12 +143,14 @@ def positions(p):
             c.append('encapping')
         elif aa[n-1] == '*':
             c.append('pause')
+        elif aa[n-1] == '#':
+            c.append('manual')
         else:
             c.append('single') # default coupling
         if n > 1:
-            if aa[n-2] == 'P' or aa[n-2].islower():
+            if aa[n-2] in ('P', '<', '>', '+', '-', '='):
                 c.pop() # deletes the last element from the list
-                c.append('double') # double coupling if previous aa is P or any aa represented by a lowercase letter
+                c.append('double') # double coupling if previous aa is P or any aa represented by <, >, +, -, or =
         if aa[n-1] in ('*', '!', '@', '$', 'Z', 'U', 'O'):
             d.append('none')
         else:
@@ -156,8 +159,8 @@ def positions(p):
             n1 = n + saa - 1
         else:
             n1 = n
-        filewrite(str(n1) + '\t' + aa[n-1] + '\t\t' + str(a[n-1]) + '\t\t' + c[n-1] + '\t\t' + d[n-1])
-    filewrite('----------------------------------------------------------------------')
+        filewrite(str(n1) + '\t' + aa[n-1] + '\t\t' + str(a[n-1]) + '\t\t' + c[n-1] + '\t\t\t' + d[n-1])
+    filewrite('-----------------------------------------------------------------------------')
     print(' ')
     input('If the positions, couplings, and deprotections are correct, press ENTER to continue')
     print(' ')
@@ -238,12 +241,12 @@ def syn():
             filewrite('Endcapping')
         else:
             filewrite('Amino acid: ' + str(n1) + ' (' + aa[n-1] + ')')
-        if c[n-1] == 'single': 
+        if c[n-1] == 'single' or c[n-1] == 'manual': 
             coupling(n-1)
         elif c[n-1] == 'double':
             doublecoupling(n-1)
         elif c[n-1] == 'oxidation':
-            onresinoxidation(n-1)
+            onresinoxidation()
         elif c[n-1] == 'endcapping':
             endcapping(n-1) 
         elif c[n-1] == 'ivdde':
@@ -334,28 +337,31 @@ def swelling():
     
 def coupling(n): # S. No. (integer) of the amino acid
     filewrite('Coupling (single) started at ' + timestamp())
-    aapos = a[n]
-    pspos(aapos)
-    prime.write(1)
-    filewrite('Amino acid position on PS is ' + str(aapos))
-    print('Priming amino acid ' + aa[n])
-    pumpon(len1+len2) # amino acid line priming - aa to ps to pump
-    prime.write(0)
-    reagent.write(1)
-    pumpon(len3) # amino acid line priming - pump to resin
-    reagent.write(0)
-    waste.write(1)
-    vent.write(1)
-    n2.write(1)
-    sleep(10)
-    n2.write(0)
-    vent.write(0)
-    waste.write(0)
+    if a[n] == 1:
+        input('Synthesis paused, add amino acid solution to the reactor manually, and press ENTER to continue')
+    else:
+        aapos = a[n]
+        pspos(aapos)
+        prime.write(1)
+        filewrite('Amino acid position on PS is ' + str(aapos))
+        print('Priming amino acid ' + aa[n])
+        pumpon(len1+len2) # amino acid line priming - aa to ps to pump
+        prime.write(0)
+        reagent.write(1)
+        pumpon(len3) # amino acid line priming - pump to resin
+        reagent.write(0)
+        waste.write(1)
+        vent.write(1)
+        n2.write(1)
+        sleep(10)
+        n2.write(0)
+        vent.write(0)
+        waste.write(0)
+        reagent.write(1)
+        pumpon(ss*500-len3) # addition of 0.5 ml amino acid solution
+        pspos(1)
+        sleep(1)
     print('Adding reagents')
-    reagent.write(1)
-    pumpon(ss*500-len3) # addition of 0.5 ml amino acid solution
-    pspos(1)
-    sleep(1)
     pspos(5)
     prime.write(1)
     reagent.write(0)
@@ -697,31 +703,10 @@ def ivddedeprotection(n): # S. No. (integer) of the reagent
     filewrite('Completed at ' + timestamp())
     print(' ')
 
-def onresinoxidation(n): # S. No. (integer) of the reagent
+def onresinoxidation():
     filewrite('Onresin oxidation started at ' + timestamp())
-    print('Adding reagents')
-    aapos = a[n]
-    pspos(aapos)
-    filewrite('Tl(CF3COO)3 position on PS is ' + str(aapos))
-    sleep(1)
-    prime.write(1)
-    pumpon(len1+len2) # removing previous reagent from tubing between aa to ps to pump
-    prime.write(0)
-    reagent.write(1)
-    pumpon(len3) # removing DMF leftover in the tubing
-    reagent.write(0)
-    waste.write(1)
-    vent.write(1)
+    input('Synthesis paused, add Tl(CF3COO)3 solution to the reactor manually, and press ENTER to continue')
     n2.write(1)
-    sleep(10)
-    n2.write(0)
-    vent.write(0)
-    waste.write(0)
-    reagent.write(1)
-    pumpon(ss*2000) # addition of 2 ml Tl(CF3COO)2 solution
-    pspos(1)
-    n2.write(1)
-    reagent.write(0)
     print('60 min first round oxidation')
     sleep(3600) # 60 min first round oxidation
     waste.write(1)
@@ -731,13 +716,8 @@ def onresinoxidation(n): # S. No. (integer) of the reagent
     waste.write(0)
     vent.write(0)
     n2.write(0)
-    print('Adding reagents')
-    reagent.write(1)
-    pspos(aapos)
-    pumpon(ss*2000) # addition of 2 ml Tl(CF3COO)2 solution
-    pspos(1)
+    input('Synthesis paused, add Tl(CF3COO)3 solution to the reactor manually, and press ENTER to continue')
     n2.write(1)
-    reagent.write(0)
     print('60 min second round oxidation')
     sleep(3600) # 60 min second round oxidation
     waste.write(1)
@@ -889,10 +869,10 @@ chdir(dir) # changing current working directory to output folder
 file = open(filename, 'w') # creating a new output file
 file.close()
 filewrite(datetime.now().strftime('%m-%d-%Y %I:%M:%S %p'))
-filewrite('The peptides sequence is ' + seq + '\n')
+filewrite('The peptides sequence not including any amino acid already present on the resin is ' + seq + '\n')
 print(' ')
 aan = len(seq)
-ignore = ['*']
+ignore = ['*', '@', '#']
 seq1 = Counter(x for x in seq if x not in ignore) # aa sorting
 aan1 = len(seq1) # number of different amino acids and reagents
 aa = [] # seq reversed for synthesis
