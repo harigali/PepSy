@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor of Research, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - January 17, 2020
+# Last update - February 27, 2020
 
 # This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
@@ -110,22 +110,13 @@ def positions(p):
                 mw = 0
             wt = vol*mw*0.33
             dmf = vol*1000-wt
-            vol = str(round(vol, 2))
-            wt = format(int(wt), '03d')
-            dmf = str(int(dmf))
-            filewrite(str(n) + '\t' + paak[n-1] + '(' + str(paav[n-1]) + ')' + '\t\t' + str(paap[n-1]) + '\t\t' + vol + ' ml' + '\t\t\t' + wt + ' mg' + '\t\t\t' + dmf + ' ul')
+            filewrite(str(n) + '\t' + paak[n-1] + '(' + str(paav[n-1]) + ')' + '\t\t' + str(paap[n-1]) + '\t\t' + str("{:.1f}".format(vol)) + ' ml' + '\t\t\t' + str("{:.0f}".format(wt)) + ' mg' + '\t\t\t' + str("{:.0f}".format(dmf)) + ' ul')
         filewrite('---------------------------------------------------------------------------------------------------')
         print(' ')
-        print('Check the nitrogen gas pressure, if it is not ~2 psi then adjust the pressure.')
-        print(' ')
-        print('Check the levels of all the reagents, if any of them is not enough then add.')
-        print(' ')
-        input('If you are ready, press ENTER to continue')
     else:
         for n in range (1, paan1+1):
             pos = synconfig.getint('Positions', paak[n-1])
             paap.append(pos)
-    print(' ')
     filewrite('-----------------------------------------------------------------------------')
     filewrite('S. No.' + '\t' + 'Amino acid' + '\t' + 'Position' + '\t' + 'Coupling' + '\t\t' + 'Deprotection')
     filewrite('-----------------------------------------------------------------------------')
@@ -161,9 +152,41 @@ def positions(p):
             n1 = n
         filewrite(str(n1) + '\t' + aa[n-1] + '\t\t' + str(a[n-1]) + '\t\t' + c[n-1] + '\t\t\t' + d[n-1])
     filewrite('-----------------------------------------------------------------------------')
+    dmfn = 0 # number of dmf washings
+    cn = 0 # number of couplings
+    dn = 0 # number of fmoc deprotections
+    for n in range (1, paan+1):
+        if aa[n-1] != '*':
+            dmfn += 10 # 5 for coupling and 5 for deprotection
+        if aa[n-1] in ('@', '!', '$', 'Z', 'U', 'O'):
+            dmfn -= 5 # 5 for deprotection removed
+        if aa[n-1] not in ('*', '@', '!', '$'):
+            cn += 1
+        if aa[n-1] in ('p', 'P', '<', '>', '-', '+', '='):
+            cn += 2 # double coupling
+        if aa[n-1] not in ('*', '@', '!', '$', 'Z', 'U', 'O'):
+            dn += 1
+    dmfvol = 5+11.5+(dmfn*2) # 5 ml for extra, 0.5 ml for initial priming/swelling/fmocdeprotection and 2 ml for each washing
+    dcmvol = 10+11.5 # 10 ml for extra, 11.5 ml for initial priming, swelling, and final washing    
+    hbtvol = 2+0.5+((len2/1000)+0.5)*cn # 2 ml for extra, 0.5 ml for initial priming, and (len2 + 0.5) for each coupling    
+    hobvol = 2+0.5+((len2/1000)+0.26)*cn # 2 ml for extra, 0.5 ml for initial priming, and (len2 + 0.26) for each coupling    
+    dipvol = 2+0.5+((len2/1000)+0.26)*cn # 2 ml for extra, 0.5 ml for initial priming, and (len2 + 0.26) for each coupling    
+    pipvol = 2+0.5+((len2+len3)/1000+2)*dn # 2 ml for extra, 0.5 ml for initial priming, and (len2 + len3 + 2) for each fmoc deprotection    
     print(' ')
-    input('If the positions, couplings, and deprotections are correct, press ENTER to continue')
+    filewrite('Volume of DMF = ' + str("{:.1f}".format(dmfvol)) + ' ml')
+    filewrite('Volume of DCM = ' + str("{:.1f}".format(dcmvol)) + ' ml')
+    filewrite('Volume of HBTU solution = ' + str("{:.1f}".format(hbtvol)) + ' ml')
+    filewrite('Volume of HOBt solution = ' + str("{:.1f}".format(hobvol)) + ' ml')
+    filewrite('Volume of DIPEA solution = ' + str("{:.1f}".format(dipvol)) + ' ml')
+    filewrite('Volume of Piperidine solution  = ' + str("{:.1f}".format(pipvol)) + ' ml')
     print(' ')
+    print('Check the positions, couplings, and deprotections are correct')
+    print(' ')
+    print('Check the nitrogen gas pressure, if it is not ~2 psi then adjust the pressure.')
+    print(' ')
+    print('Check the levels of all the reagents, if any of them is not enough then add.')
+    print(' ')
+    input('If you are ready, press ENTER to continue')
     
 def pspos(p): # p is stream selector position (integer)
     if p == 1:
