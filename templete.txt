@@ -12,7 +12,7 @@
 # Use uppercase letters for L amino acids.
 # Use lowercase alphabets for D amino acids.
 # Use '<', '>', '-', '+', and '=' for N-methyl amino acids.
-# Use '#' for a manually adding amino acid to the reactor at the time of its coupling. 
+# Use '#' for manually adding an amino acid to the reactor at the time of its coupling. 
 # Use '3', '4', '5', '6', and '8' for beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, and 8-aminooctanoic acid linker and place the solution in the position assigned to '3', '4', '5', '6', and '8' respectively
 # Use 'X' and 'B' for H2N-PEG2-COOH and H2N-PEG3-COOH linker respectively
 # Use 'J', '1', '2', '7', or '9' for a linker (other than beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, 8-aminooctanoic acid, H2N-PEG2-COOH, H2N-PEG3-COOH), an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to 'J', '1', '2', '7', or '9' respectively.
