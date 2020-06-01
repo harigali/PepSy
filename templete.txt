@@ -9,19 +9,19 @@
 # dp = Initial deprotection step requirement (y or n)
 # fw = Final washing and drying steps requiremnt (y or n)
 
-# Use uppercase letters for L amino acids.
-# Use lowercase alphabets for D amino acids.
-# Use '<', '>', '-', '+', and '=' for N-methyl amino acids.
-# Use '#' for manually adding an amino acid to the reactor at the time of its coupling. 
+# Use uppercase letters for L amino acids
+# Use lowercase alphabets for D amino acids
+# Use '<', '>', '-', '+', and '=' for N-methyl amino acids
+# Use '#' for manually adding an amino acid to the reactor at the time of its coupling.
 # Use '3', '4', '5', '6', and '8' for beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, and 8-aminooctanoic acid linker and place the solution in the position assigned to '3', '4', '5', '6', and '8' respectively
 # Use 'X' and 'B' for H2N-PEG2-COOH and H2N-PEG3-COOH linker respectively
-# Use 'J', '1', '2', '7', or '9' for a linker (other than beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, 8-aminooctanoic acid, H2N-PEG2-COOH, H2N-PEG3-COOH), an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to 'J', '1', '2', '7', or '9' respectively.
-# Use 'Z' for tris t-butyl protected DOTA and place the DOTA solution in the position assigned to 'Z'.
+# Use 'J', '1', '2', '7', or '9' for a linker (other than beta-alanine, 4-aminobutanoic acid, 5-aminovaleric acid, 6-aminohexanoic acid, 8-aminooctanoic acid, H2N-PEG2-COOH, H2N-PEG3-COOH), an unusual amino acid or any molecule that requires both coupling and fmoc deprotection and place the solution in the position assigned to 'J', '1', '2', '7', or '9' respectively
+# Use 'Z' for tris t-butyl protected DOTA and place the DOTA solution in the position assigned to 'Z'
 # Use 'U' or 'O' for a chelator (other than tris t-butyl protected DOTA), an unusual amino acid, or any molecule that requires only coupling and place the solution in the position assigned to  'U' or 'O' respectively.
-# Use '*' for pausing the synthesis.
-# Use '!' for ivDde deprotection and place the hydrazine solution in the position assigned to '!'.
+# Use '*' for pausing the synthesis
+# Use '!' for ivDde deprotection and place the hydrazine solution in the position assigned to '!'
 # Use '@' for onresin oxidation and add the thallium solution manually.
-# Use '$' for end-capping and place the acetic anhydride solution in the position assigned to '$'.
+# Use '$' for end-capping and place the acetic anhydride solution in the position assigned to '$'
 
 [Parameters]
 ss = 1
