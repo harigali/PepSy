@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor of Research, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - February 27, 2020
+# Last update - July 23, 2020
 
 # This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
@@ -97,18 +97,18 @@ def positions(p):
                 pos = 7 + at
             paap.append(pos)
             if paak[n-1] == '!':
-                vol = (len1+len2)/1000+ss*2
+                vol = ((len1+len2)/1000+ss*2)*paav[n-1]
             elif paak[n-1] == '@':
-                vol = (len1+len2)/1000+ss*4
+                vol = ((len1+len2)/1000+ss*4)*paav[n-1]
             elif paak[n-1] == '$':
-                vol = (len1+len2)/1000+ss*1
+                vol = ((len1+len2)/1000+ss*1)*paav[n-1]
             else:
                 vol = ((len1+len2)/1000+ss*0.5)*paav[n-1]  
             try:
                 mw = mwdict[paak[n-1].upper()]
             except:
                 mw = 0
-            wt = vol*mw*0.33
+            wt = vol*mw*0.33 # conc of aa solution is 0.33M
             dmf = vol*1000-wt
             filewrite(str(n) + '\t' + paak[n-1] + '(' + str(paav[n-1]) + ')' + '\t\t' + str(paap[n-1]) + '\t\t' + str("{:.1f}".format(vol)) + ' ml' + '\t\t\t' + str("{:.0f}".format(wt)) + ' mg' + '\t\t\t' + str("{:.0f}".format(dmf)) + ' ul')
         filewrite('---------------------------------------------------------------------------------------------------')
@@ -628,7 +628,6 @@ def pause():
     
 def aalinecleaning():
     m = int(input('Enter the starting position on ps '))
-    print(' ')
     n = int(input('Enter the ending position on ps '))
     print(' ')
     input('Insert all amino acid/reagent lines in DMF and then press ENTER to continue')
