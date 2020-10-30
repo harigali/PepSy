@@ -63,7 +63,7 @@ import serial
 
 # Functions
 def timestamp():
-    timestamp = datetime.now().strftime('%I:%M:%S %p')
+    timestamp = datetime.now().strftime('%m-%d-%Y %I:%M:%S %p')
     return timestamp
 
 def filewrite(info):
