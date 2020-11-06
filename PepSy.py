@@ -4,7 +4,7 @@
 # Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor of Research, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 # Email address to report bugs: hgali@ouhsc.edu.
 # Tested only with Python 3.5.0
-# Last update - July 23, 2020
+# Last update - November 05, 2020
 
 # This script is written for synthesizing peptides using traditional fmoc chemistry. The synthesis conditions are optimized for 50 or 100 umol scale.
 # This script includes ivDde deprotection, on-resin oxidation by Tl(CF3COO)3, and end capping with acetic anhydride.
@@ -49,6 +49,7 @@
 # '!' is used for ivDde deprotection and place the hydrazine solution in the position assigned to '!'.
 # '@' is used for onresin oxidation and add the thallium solution manually.
 # '$' is used for endcapping and place the acetic anhydride solution in the position assigned to '$'.
+# '^' and '&' are used for any unusual amino acid or molecule that needs double coupling.
 # -------------------------------------------------------------------------------------------------------------------------------------------
 
 # Imports
@@ -136,6 +137,8 @@ def positions(p):
             c.append('pause')
         elif aa[n-1] == '#':
             c.append('manual')
+        elif aa[n-1] in ('^', '&'):
+            c.append('double')
         else:
             c.append('single') # default coupling
         if n > 1:
