@@ -1,6 +1,6 @@
 ## PepSy
 ### An open-source automated peptide synthesizer based on Arduino and Python
-Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor of Research, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
+Developed by Dr. Hariprasad Gali, Ph.D., Associate Professor, Department of Pharmaceutical Sciences, College of Pharmacy, The University of Oklahoma Health Sciences Center, Oklahoma City, OK 73117.
 
 Email address to report bugs: hgali@ouhsc.edu.
 
